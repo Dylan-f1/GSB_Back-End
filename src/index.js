@@ -1,27 +1,19 @@
-const express = require('express');
-const mongoose = require('mongoose');
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const express = require('express')
+const app = express()
+const port = 3000
+const mongoose = require('mongoose')
+const User = require('../models/user_model')
+const ExpenseReport = require('../models/Expense_Report_model')
 
-// Middleware
-app.use(express.json());
+mongoose.connect('mongodb+srv://Dylan:Go14@cluster0.g7q9apz.mongodb.net/')
+const db = mongoose.connection
+db.on('error', console.error.bind(console, 'MongoDB connection error:'))
+db.on('open', () =>{console.log('Connected to MongoDB')})
 
-// Connexion à MongoDB
-mongoose.connect('mongodb://localhost:27017/gsb_database')
-  .then(() => {
-    console.log('Connecté à MongoDB avec succès');
-  })
-  .catch((err) => {
-    console.error('Erreur de connexion à MongoDB:', err);
-  });
-
-// Définir les routes (à ajouter plus tard)
 app.get('/', (req, res) => {
-  res.send('API GSB est en ligne');
+    res.send('Hello World')
 });
-
-// Démarrer le serveur
-app.listen(PORT, () => {
-  console.log(`Serveur démarré sur le port ${PORT}`);
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`)
 });
