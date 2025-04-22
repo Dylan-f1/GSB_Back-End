@@ -20,6 +20,10 @@ const expenseReportSchema = new mongoose.Schema({
     type:{
         type: String,
         requiered: true
+    },
+    createdAt:{
+        type: String,
+        default: Date.now(),
     }
 })
 
