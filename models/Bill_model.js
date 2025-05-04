@@ -13,6 +13,10 @@ const expenseReportSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    description:{
+        type: String,
+        required: true
+    },
     status:{
         type: String,
         required: true
@@ -27,6 +31,6 @@ const expenseReportSchema = new mongoose.Schema({
     }
 })
 
-const ExpenseReport = mongoose.model('ExpenseReport', expenseReportSchema)
-module.exports = ExpenseReport
+const Bill = mongoose.model('Bill', expenseReportSchema)
+module.exports = Bill
 

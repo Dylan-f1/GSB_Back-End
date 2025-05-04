@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema({
     },
     email:{
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password:{
         type: String,
@@ -15,7 +16,7 @@ const userSchema = new mongoose.Schema({
     },
     expenseReport:{
         type: [mongoose.Schema.Types.ObjectId],
-        ref: 'ExpenseReport'
+        ref: 'Bills'
     },
     role:{
         type: String,
@@ -26,6 +27,15 @@ const userSchema = new mongoose.Schema({
         default: Date.now(),
     }
 })
+
+userSchema.pre('save', async function(next) {
+    const existingUser = await User.findOne({email: this.email})
+    if (existingUser) {
+        throw new Error('User already exists', { cause: 400})
+    }
+    next()
+})
+
 const User = mongoose.model('User', userSchema)
 module.exports = User
 
