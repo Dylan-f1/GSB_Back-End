@@ -15,10 +15,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    expenseReport:{
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Bills'
-    },
     role:{
         type: String,
         required: true

@@ -1,4 +1,5 @@
 const User = require('../models/user_model')
+const sha256 = require('crypto-js/sha256')
 
 const createUser = async (req, res) => {
     try {
@@ -16,8 +17,10 @@ const createUser = async (req, res) => {
 }
 const getUsers = async (req, res) => {
     try {
-    const users = await User.find()
-    res.status(200).json(users)
+        // if email is provided, find user by email else find all users
+        const email = req.query.email ? {email: req.query.email} : {}
+        const users = await User.find(email)
+        res.status(200).json(users)
     } catch (error) {
         res.status(500).json({message: "Server Error"})
     }
@@ -45,6 +48,7 @@ const updateUser = async (req, res) => {
     try {
         const {email} = req.params
         const {name, password, role} = req.body
+        const newPassword = password && sha256(password)
         const user = await User.findOneAndUpdate({email}, {name, email: newEmail, password, role}, {new: true})
         if (!user) {
             throw new Error("User not found", { cause: 404})

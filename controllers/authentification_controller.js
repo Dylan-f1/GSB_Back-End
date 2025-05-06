@@ -32,7 +32,16 @@ const verifyToken = async (req, res, next) => {
 }
 
 const isAdmin = async (req, res) => {
-
+    if (req.user.role !== 'admin') {
+        
+    }
+    if (req.user.role === 'admin') {
+        billController.getBills(req, res)
+        billController.getBillById(req, res)
+        billController.createBill(req, res)
+        billController.updateBill(req, res)
+        billController.deleteBill(req, res)
+    }
 }
 
 module.exports = { login, verifyToken, isAdmin }
