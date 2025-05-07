@@ -1,10 +1,28 @@
 const Bill = require('../models/bill_model')
+const {uploadTS3} = require('../utils/s3')
 
 const createBill = async (req, res) => {
     try {
         const { date, amount, proof, description, status, type } = req.body
         const {id} = req.user
-        const bill = new Bill({ date, amount, proof, description, status, type, user: id })
+
+        let proofUrl = null
+        if (req.file) {
+            proofUrl = await uploadTS3(req.file)
+        }
+        else {
+            throw new Error('Proof is required', { cause: 400 })
+        }
+
+        const bill = new Bill({
+         date: "06-05-2025",
+         amount: 10000,
+         proof: proofUrl,
+         description: "test",
+         status: "pending", 
+         type: "expense", 
+         user: id 
+        })
         await bill.save()
         res.status(201).json(bill)
     } catch (error) {
