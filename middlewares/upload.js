@@ -1,21 +1,20 @@
-const multer = require('multer')
 
-const storage = multer.memoryStorage()
+const multer = require('multer');
 
-const fileFilter = (req, file, cb) => {
-    if (file.mimetype.startsWith('image/')) {
-        cb(null, true)
-    } else {
-        cb(new Error ('Only image files are allowed !'), false)
-    }
-}
+const storage = multer.memoryStorage();
 
 const upload = multer({
     storage: storage,
-    fileFilter: fileFilter,
     limits: {
-        fileSize: 5 * 1024 * 1024,
+        fileSize: 5 * 1024 * 1024, // 5MB max file size
+    },
+    fileFilter: (req, file, cb) => {
+        // Accept only image files
+        if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+            return cb(new Error('Only image files are allowed!'), false);
+        }
+        cb(null, true);
     }
-})
+});
 
-module.exports = upload
+module.exports = upload; 

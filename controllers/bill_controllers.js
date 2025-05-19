@@ -1,9 +1,10 @@
-const Bill = require('../models/bill_model')
+const Bill = require('../models/Bill_model')
 const {uploadTS3} = require('../utils/s3')
 
 const createBill = async (req, res) => {
     try {
-        const { date, amount, proof, description, status, type } = req.body
+        const { date, amount, proof, description, status, type } = JSON.parse(req.body.metadata)
+        console.log(date, amount, description, status, type)
         const {id} = req.user
 
         let proofUrl = null

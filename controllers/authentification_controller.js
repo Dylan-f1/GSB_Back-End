@@ -18,7 +18,7 @@ const login = async (req, res) => {
 }
 
 const verifyToken = async (req, res, next) => {
-    const token = req.headers.authorization.split(' ')[1]
+    const token = req.headers.authorization.split(' ')[1] || req.headers.authorization
     if (!token) {
         return res.status(401).json({ message: 'No token provided' })
     }
@@ -31,7 +31,7 @@ const verifyToken = async (req, res, next) => {
     })
 }
 
-const isAdmin = async (req, res) => {
+const isAdmin = async (req, res, next) => {
  
 }
 
