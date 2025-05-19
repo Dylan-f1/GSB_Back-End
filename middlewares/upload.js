@@ -1,4 +1,3 @@
-
 const multer = require('multer');
 
 const storage = multer.memoryStorage();
@@ -9,7 +8,7 @@ const upload = multer({
         fileSize: 5 * 1024 * 1024, // 5MB max file size
     },
     fileFilter: (req, file, cb) => {
-        // Accept only image files
+        // Accept images only
         if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
             return cb(new Error('Only image files are allowed!'), false);
         }

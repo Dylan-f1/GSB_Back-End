@@ -1,36 +1,21 @@
+
 {
-  "name": "gsb_back-end",
+  "name": "gsb",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --env-file=.env index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Dylan-f1/GSB_Back-End.git"
-  },
-  "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Dylan-f1/GSB_Back-End/issues"
-  },
-  "homepage": "https://github.com/Dylan-f1/GSB_Back-End#readme",
-  "description": "",
   "dependencies": {
-    "aws": "^0.0.3-2",
     "aws-sdk": "^2.1692.0",
-    "cors": "^2.8.5",
-    "crypto-js": "^4.2.0",
     "express": "^5.1.0",
     "js-sha256": "^0.11.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.13.2",
-    "multer": "^1.4.5-lts.2",
-    "uuid": "^11.1.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.9"
+    "multer": "^1.4.5-lts.2"
   }
 }
