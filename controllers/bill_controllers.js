@@ -3,8 +3,8 @@ const { uploadToS3 } = require('../utils/s3')
 
 const createBill = async (req, res) => {
     try {
-        const { date, amount, description, status, type } = JSON.parse(req.body.metadata)
-        console.log(date, amount, description, status, type)
+        const { date, amount,merchant, description, status, type } = JSON.parse(req.body.metadata)
+        console.log(date, amount,merchant, description, status, type)
         const { id } = req.user
         
         // Handle file upload
@@ -17,6 +17,7 @@ const createBill = async (req, res) => {
         const bill = new Bill({ 
             date: date, 
             amount: amount, 
+            merchant: merchant,
             proof: proofUrl, 
             description: description, 
             status: status, 
@@ -39,11 +40,16 @@ const getBills = async (req, res) => {
     try {
         const { id, role } = req.user
         let bills
-        if (role === 'admin') {
+        console.log("dylan", id, role)
+
+        if (role == "Admin") {
+            console.log("admin = ", id)
             bills = await Bill.find({})
         } else {
+            console.log("user = ", id)
             bills = await Bill.find({ user: id })
         }
+        console.log("bills", bills)
         res.status(200).json(bills)
     } catch (error) {
         res.status(500).json({ message: "Server error" })
@@ -71,10 +77,10 @@ const getBillById = async (req, res) => {
 const updateBill = async (req, res) => {
     try {
         const { id } = req.params
-        const { date, amount, proof, description, status, type } = req.body
+        const { date, amount, proof,merchant, description, status, type } = req.body
         const bill = await Bill.findByIdAndUpdate(
             id,
-            { date, amount, proof, description, status, type },
+            { date, amount, proof,merchant, description, status, type },
             { new: true }
         )
         if (!bill) {
@@ -107,5 +113,7 @@ const deleteBill = async (req, res) => {
         }
     }
 }
+
+
 
 module.exports = { createBill, getBills, getBillById, updateBill, deleteBill }
