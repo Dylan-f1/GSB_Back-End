@@ -1,4 +1,4 @@
-const Bill = require('../models/bill_model')
+const Bill = require('../models/Bill_model')
 const { uploadToS3 } = require('../utils/s3')
 
 const createBill = async (req, res) => {
