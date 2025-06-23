@@ -29,6 +29,11 @@ const billSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  lastReminderSent: {
+    type: Date,
+    required: false, // ← on le rend facultatif pour les factures jamais rappelées
+    default: null 
+  },
   createdAt: {
     type: String,
     default: Date.now(),
