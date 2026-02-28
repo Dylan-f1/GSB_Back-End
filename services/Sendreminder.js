@@ -19,39 +19,35 @@ async function sendReminderEmails() {
         { lastReminderSent: { $lt: startOfToday } },
         { lastReminderSent: { $exists: false } }
       ]
-    }).populate('userId'); // Pour récupérer l'email de l’utilisateur
+    }).populate('user'); // Pour recuperer l'email de l'utilisateur
 
     if (bills.length === 0) {
-      console.log("📭 Aucun rappel à envoyer aujourd’hui.");
+      console.log('Aucun rappel a envoyer aujourd\'hui.');
       return;
     }
 
     for (const bill of bills) {
-      const user = bill.userId;
-      const formattedDate = bill.dueDate.toLocaleDateString();
+      const user = bill.user;
+      const formattedDate = new Date(bill.date).toLocaleDateString();
 
-      const message = `
-        Bonjour,
-
-        Ceci est un rappel concernant votre facture de ${bill.amount}€,
-        qui est due le ${formattedDate}.
-
-        Merci de régler votre facture dans les temps.
-      `;
+      const message = 'Bonjour,\n\n'
+        + 'Ceci est un rappel concernant votre facture de ' + bill.amount + 'EUR,\n'
+        + 'qui est due le ' + formattedDate + '.\n\n'
+        + 'Merci de regler votre facture dans les temps.';
 
       await sendEmail({
         to: user.email,
-        subject: "🔔 Rappel : Facture en attente",
+        subject: 'Rappel : Facture en attente',
         text: message
       });
 
       bill.lastReminderSent = new Date();
       await bill.save();
 
-      console.log(`📧 Rappel envoyé à ${user.email} pour la facture ID: ${bill._id}`);
+      console.log('Rappel envoye a ' + user.email + ' pour la facture ID: ' + bill._id);
     }
   } catch (error) {
-    console.error("❌ Erreur lors de l'envoi des rappels :", error.message);
+    console.error('Erreur lors de l\'envoi des rappels :', error.message);
   }
 }
 

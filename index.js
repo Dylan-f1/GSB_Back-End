@@ -22,7 +22,7 @@ app.use(cors())
 app.use('/users', userRoute)
 app.use('/auth', authenticationRoute)
 app.use('/bills', billRoute)
-app.use('/reminder', reminderRoutes);
+app.use('/reminder', reminderRoute);
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`)
 });
