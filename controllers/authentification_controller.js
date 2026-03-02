@@ -1,8 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user_model');
 const sha256 = require('js-sha256')
-const JWT_SECRET = 'your-secret-key'; // In production, use environment variable
-
 // Login method that will check if the user exists and if the password is correct returns a token
 const login = async (req, res) => {
     const { email, password } = req.body

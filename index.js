@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+require('dotenv').config()
 const port = process.env.PORT || 3000
 const cors = require('cors')
 const mongoose = require('mongoose')
@@ -10,10 +11,16 @@ const billRoute = require('./routes/bill_route')
 const startReminderJob = require('./cron/remindercron.js');
 
 
-mongoose.connect('mongodb+srv://Dylan:Go14@cluster0.g7q9apz.mongodb.net/GSB-Back-End')
-const db = mongoose.connection;
+const mongoUri = process.env.MONGODB_URI || process.env.DATABASE_URL
+if (!mongoUri) {
+    console.error('No MongoDB connection string found in environment (MONGODB_URI or DATABASE_URL)')
+    process.exit(1)
+}
+
+mongoose.connect(mongoUri)
+const db = mongoose.connection
 db.on('error', (err) => { console.log('Error connecting to MongoDB', err) })
-db.on('open', () => { console.log('Connected to MongoDB')})
+db.on('open', () => { console.log('Connected to MongoDB') })
 
 startReminderJob(); // Lance le cron à l'init
 
