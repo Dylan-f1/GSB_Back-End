@@ -44,7 +44,7 @@ const getBills = async (req, res) => {
 
         if (role == "Admin") {
             console.log("admin = ", id)
-            bills = await Bill.find({})
+            bills = await Bill.find({}).populate('user', 'name')
         } else {
             console.log("user = ", id)
             bills = await Bill.find({ user: id })
